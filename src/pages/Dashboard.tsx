@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import CreateAppointmentModal from '../components/CreateAppointmentModal';
+import { useSidebar } from '../context/SidebarContext';
 
 const THEME_BLUE = '#1a237e';
 
@@ -13,6 +14,7 @@ const Dashboard: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { getContentPadding } = useSidebar();
 
   useEffect(() => {
     // Get user name from localStorage
@@ -49,7 +51,7 @@ const Dashboard: React.FC = () => {
       fontSize: '2rem',
       color: THEME_BLUE,
       fontWeight: 700,
-      marginLeft: '4.5rem',
+      marginLeft: getContentPadding(),
     }}>
       <div
         style={{
@@ -102,6 +104,14 @@ const Dashboard: React.FC = () => {
             boxShadow: '0 2px 8px rgba(26,35,126,0.10)',
             cursor: 'pointer',
             transition: 'transform 0.2s, box-shadow 0.2s',
+          }}
+          onMouseOver={e => {
+            e.currentTarget.style.transform = 'translateY(-6px) scale(1.04)';
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(26,35,126,0.18)';
+          }}
+          onMouseOut={e => {
+            e.currentTarget.style.transform = 'none';
+            e.currentTarget.style.boxShadow = '0 2px 8px rgba(26,35,126,0.10)';
           }}
           onClick={() => setIsCreateModalOpen(true)}
         >

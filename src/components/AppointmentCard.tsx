@@ -1,6 +1,7 @@
 import React from 'react';
 import { EllipsisOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { Dropdown, Menu } from 'antd';
+import CustomTooltip from './CustomTooltip';
 
 const THEME_BLUE = '#1a237e';
 
@@ -9,17 +10,67 @@ interface AppointmentCardProps {
   meetLink?: string;
   location?: string;
   time: string;
+  category?: string;
+  paymentStatus?: 'paid' | 'unpaid' | 'unconfirmed';
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
-const AppointmentCard: React.FC<AppointmentCardProps> = ({ name, meetLink, location, time, onEdit, onDelete }) => {
+const AppointmentCard: React.FC<AppointmentCardProps> = ({ name, meetLink, location, time, category, paymentStatus, onEdit, onDelete }) => {
+
   const menu = (
     <Menu>
       <Menu.Item key="edit" onClick={onEdit}>Edit</Menu.Item>
       <Menu.Item key="delete" onClick={onDelete}>Delete</Menu.Item>
     </Menu>
   );
+
+  const getCategoryColor = (category?: string) => {
+    switch (category?.toLowerCase()) {
+      case 'medical':
+        return '#ff6b6b';
+      case 'work':
+        return '#4ecdc4';
+      case 'personal':
+        return '#45b7d1';
+      case 'meeting':
+        return '#96ceb4';
+      case 'consultation':
+        return '#feca57';
+      default:
+        return '#95a5a6';
+    }
+  };
+
+  const getCategoryName = (category?: string) => {
+    return category || 'General';
+  };
+
+  const getPaymentStatusColor = (status?: string) => {
+    switch (status) {
+      case 'paid':
+        return '#4caf50';
+      case 'unpaid':
+        return '#f44336';
+      case 'unconfirmed':
+        return '#ff9800';
+      default:
+        return '#95a5a6';
+    }
+  };
+
+  const getPaymentStatusName = (status?: string) => {
+    switch (status) {
+      case 'paid':
+        return 'Paid';
+      case 'unpaid':
+        return 'Unpaid';
+      case 'unconfirmed':
+        return 'Unconfirmed';
+      default:
+        return 'Unknown';
+    }
+  };
 
   const date = new Date(time);
   const hours = date.getHours();
@@ -54,6 +105,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ name, meetLink, locat
         cursor: 'pointer',
         transition: 'transform 0.18s, box-shadow 0.18s',
         outline: 'none',
+        position: 'relative',
+        overflow: 'hidden'
       }}
       onMouseOver={e => {
         (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px) scale(1.02)';
@@ -64,6 +117,53 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ name, meetLink, locat
         (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 16px rgba(26,35,126,0.10)';
       }}
     >
+      {/* Curved Category Flag */}
+      <CustomTooltip content={getCategoryName(category)}>
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '16px',
+            height: '100%',
+            background: getCategoryColor(category),
+            borderRadius: '0 8px 8px 0',
+            zIndex: 1,
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = getCategoryColor(category) + 'dd'; // Add transparency for darker effect
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = getCategoryColor(category);
+          }}
+        />
+      </CustomTooltip>
+
+      {/* Payment Status Indicator */}
+      <CustomTooltip content={getPaymentStatusName(paymentStatus)}>
+        <div
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            width: '12px',
+            height: '12px',
+            borderRadius: '50%',
+            background: getPaymentStatusColor(paymentStatus),
+            zIndex: 2,
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.2)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        />
+      </CustomTooltip>
       <div style={{ flex: 1, paddingRight: '1.5rem' }}>
         <div style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: 4, color: THEME_BLUE }}>{name}</div>
         <div style={{ display: 'flex', alignItems: 'center' }}>

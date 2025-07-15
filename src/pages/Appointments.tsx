@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Tabs } from 'antd';
 import ConfirmedAppointments from './ConfirmedAppointments';
 import PendingAppointments from './PendingAppointments';
+import { useSidebar } from '../context/SidebarContext';
 
 const THEME_BLUE = '#1a237e';
 
-const Appointments: React.FC = () => {
+const Appointments: React.FC = React.memo(() => {
   const [showTabs, setShowTabs] = useState(false);
+  const { getContentPadding } = useSidebar();
+
+  const contentPadding = useMemo(() => getContentPadding(), [getContentPadding]);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowTabs(true), 200);
@@ -23,7 +27,7 @@ const Appointments: React.FC = () => {
       justifyContent: 'flex-start',
       fontWeight: 700,
       color: THEME_BLUE,
-      paddingLeft: '4.5rem',
+      paddingLeft: contentPadding,
       paddingTop: '3.5rem',
       boxSizing: 'border-box',
     }}>
@@ -61,6 +65,8 @@ const Appointments: React.FC = () => {
       </div>
     </div>
   );
-};
+});
+
+Appointments.displayName = 'Appointments';
 
 export default Appointments; 
