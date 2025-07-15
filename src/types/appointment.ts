@@ -4,4 +4,6 @@ export interface Appointment {
   meetLink?: string;
   location?: string;
   time: string;
+  category?: string;
+  paymentStatus?: 'paid' | 'unpaid' | 'unconfirmed';
 } 

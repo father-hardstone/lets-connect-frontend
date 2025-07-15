@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Layout } from 'antd';
 import Sidebar from '../components/Sidebar';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useSidebar } from '../context/SidebarContext';
 
 const { Content } = Layout;
 
 const DashboardShell: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { effectiveCollapsed } = useSidebar();
   const location = useLocation();
 
   return (
@@ -33,7 +34,7 @@ const DashboardShell: React.FC = () => {
       }}
     >
       <Layout style={{ width: 1920, height: 1080, background: 'none', overflow: 'hidden' }}>
-        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+        <Sidebar />
         <Content style={{
           minHeight: 1080,
           height: 1080,
@@ -42,7 +43,7 @@ const DashboardShell: React.FC = () => {
           width: '100%',
           overflow: 'hidden',
           position: 'relative',
-          marginLeft: collapsed ? 100 : 280,
+          marginLeft: effectiveCollapsed ? 100 : 280,
           transition: 'margin-left 0.3s ease',
         }}>
           <AnimatePresence mode="wait">

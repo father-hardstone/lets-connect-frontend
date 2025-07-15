@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Radio, Input, Space } from 'antd';
 import { useParams } from 'react-router-dom';
 import ListAppointments from '../components/ListAppointments';
@@ -8,7 +8,7 @@ import { SearchOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 
-const ConfirmedAppointments: React.FC = () => {
+const ConfirmedAppointments: React.FC = React.memo(() => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,18 +16,27 @@ const ConfirmedAppointments: React.FC = () => {
 
   useEffect(() => {
     import('../data/appointments.json').then((data) => {
-      setAppointments(data.default || data);
+      setAppointments((data.default || data) as Appointment[]);
     });
   }, []);
 
-  const filteredAppointments = appointments.filter(appointment => 
-    appointment.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (appointment.location?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (appointment.meetLink?.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const filteredAppointments = useMemo(() => 
+    appointments.filter(appointment => 
+      appointment.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (appointment.location?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (appointment.meetLink?.toLowerCase().includes(searchQuery.toLowerCase()))
+    ), [appointments, searchQuery]);
 
   return (
-    <div style={{ width: '100%', height: '100%' }}>
+    <div style={{ 
+      width: 'calc(100% - 48px)', 
+      height: 'calc(100vh - 200px)',
+      border: '1px solid #e0e0e0',
+      borderRadius: '12px',
+      background: '#fafafa',
+      padding: '24px 24px 32px 24px',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+    }}>
       <div style={{ 
         display: 'flex', 
         alignItems: 'center',
@@ -81,6 +90,8 @@ const ConfirmedAppointments: React.FC = () => {
       )}
     </div>
   );
-};
+});
+
+ConfirmedAppointments.displayName = 'ConfirmedAppointments';
 
 export default ConfirmedAppointments; 

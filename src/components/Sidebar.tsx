@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Layout, Menu, Typography } from 'antd';
 import {
   MenuFoldOutlined,
@@ -11,25 +11,27 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useSidebar } from '../context/SidebarContext';
 
 const { Sider } = Layout;
 const { Text } = Typography;
 
 interface SidebarProps {
-  collapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
+  // Props are now handled by context
 }
 
 const LARGE_SCREEN_WIDTH = 1200;
 const THEME_BLUE = '#1a237e';
 
-const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
+const Sidebar: React.FC<SidebarProps> = () => {
+  const { collapsed, setCollapsed, setEffectiveCollapsed } = useSidebar();
   const [isHovered, setIsHovered] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(
     typeof window !== 'undefined' ? window.innerWidth >= LARGE_SCREEN_WIDTH : true
   );
   const navigate = useNavigate();
   const location = useLocation();
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,13 +39,58 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
       setIsLargeScreen(isLarge);
       if (!isLarge) {
         setIsHovered(false);
+        if (hoverTimeoutRef.current) {
+          clearTimeout(hoverTimeoutRef.current);
+          hoverTimeoutRef.current = null;
+        }
       }
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleMouseEnter = () => {
+    if (!isLargeScreen) return;
+    
+    // Clear any existing timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    
+    // Set a timeout to actually trigger the hover after a short delay
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(true);
+    }, 150); // 150ms delay
+  };
+
+  const handleMouseLeave = () => {
+    if (!isLargeScreen) return;
+    
+    // Clear any existing timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    
+    // Immediately set hover to false when leaving
+    setIsHovered(false);
+  };
+
   const effectiveCollapsed = isLargeScreen ? !isHovered : collapsed;
+
+  // Update the context's effective collapsed state whenever it changes
+  useEffect(() => {
+    setEffectiveCollapsed(effectiveCollapsed);
+  }, [effectiveCollapsed, setEffectiveCollapsed]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Map routes to menu keys
   const routeToKey: Record<string, string> = {
@@ -78,8 +125,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
         paddingTop: 0,
         transition: 'all 0.3s ease',
       }}
-      onMouseEnter={() => isLargeScreen && setIsHovered(true)}
-      onMouseLeave={() => isLargeScreen && setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div style={{
         height: effectiveCollapsed ? 0 : 64,
