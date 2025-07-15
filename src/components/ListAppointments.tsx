@@ -10,7 +10,7 @@ interface ListAppointmentsProps {
 
 const PITCH_ANGLE = 25; // degrees
 
-const ListAppointments: React.FC<ListAppointmentsProps> = ({ appointments, filteredAppointments }) => {
+const ListAppointments: React.FC<ListAppointmentsProps> = React.memo(({ appointments, filteredAppointments }) => {
   const [visibleCards, setVisibleCards] = useState<number[]>([]);
   const [pitching, setPitching] = useState(false);
   const [pitchDirection, setPitchDirection] = useState(0);
@@ -19,15 +19,23 @@ const ListAppointments: React.FC<ListAppointmentsProps> = ({ appointments, filte
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [cardPitches, setCardPitches] = useState<number[]>([]);
+  const prevFilteredAppointmentsRef = useRef<string>('');
 
   useEffect(() => {
-    setVisibleCards([]); // Reset visible cards
-    if (filteredAppointments.length > 0) {
-      filteredAppointments.forEach((_, idx) => {
-        setTimeout(() => {
-          setVisibleCards((prev) => [...prev, idx]);
-        }, idx * 120);
-      });
+    // Create a string representation of the filtered appointments to compare
+    const currentAppointmentsString = JSON.stringify(filteredAppointments.map(appt => appt.id));
+    
+    // Only trigger animation if the appointments actually changed
+    if (currentAppointmentsString !== prevFilteredAppointmentsRef.current) {
+      setVisibleCards([]); // Reset visible cards
+      if (filteredAppointments.length > 0) {
+        filteredAppointments.forEach((_, idx) => {
+          setTimeout(() => {
+            setVisibleCards((prev) => [...prev, idx]);
+          }, idx * 120);
+        });
+      }
+      prevFilteredAppointmentsRef.current = currentAppointmentsString;
     }
   }, [filteredAppointments]);
 
@@ -77,13 +85,15 @@ const ListAppointments: React.FC<ListAppointmentsProps> = ({ appointments, filte
           width: '100%',
           maxWidth: 900,
           margin: '0',
-          paddingLeft: '1rem',
-          paddingRight: '1rem',
+          paddingLeft: '2rem',
+          paddingRight: '2rem',
+          paddingTop: '1rem',
+          paddingBottom: '1rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
           overflowY: 'auto',
-          height: 'calc(100vh - 12rem)', // Adjusted height since we removed pagination
+          height: 'calc(100vh - 20rem)', // Further reduced height to prevent overflow
           minHeight: 0,
           position: 'relative',
           scrollbarWidth: 'none',
@@ -117,6 +127,8 @@ const ListAppointments: React.FC<ListAppointmentsProps> = ({ appointments, filte
                 meetLink={appt.meetLink}
                 location={appt.location}
                 time={appt.time}
+                category={appt.category}
+                paymentStatus={appt.paymentStatus}
               />
             </div>
           </div>
@@ -127,9 +139,9 @@ const ListAppointments: React.FC<ListAppointmentsProps> = ({ appointments, filte
           right: 0,
           bottom: 0,
           width: '100%',
-          height: '5.5rem',
+          height: '3rem',
           pointerEvents: 'none',
-          background: 'linear-gradient(to bottom, rgba(255,255,255,0) 40%, #fff 100%)',
+          background: 'linear-gradient(to bottom, rgba(250,250,250,0) 0%, #fafafa 100%)',
           zIndex: 100,
         }} />
       </div>
@@ -143,6 +155,8 @@ const ListAppointments: React.FC<ListAppointmentsProps> = ({ appointments, filte
       )}
     </div>
   );
-};
+});
+
+ListAppointments.displayName = 'ListAppointments';
 
 export default ListAppointments; 

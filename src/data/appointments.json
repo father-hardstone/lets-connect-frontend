@@ -3,72 +3,96 @@
     "id": 1,
     "name": "Project Kickoff Meeting",
     "meetLink": "https://meet.google.com/abc-defg-hij",
-    "time": "2025-05-20T10:00:00+05:00"
+    "time": "2025-05-20T10:00:00+05:00",
+    "category": "work",
+    "paymentStatus": "paid"
   },
   {
     "id": 2,
     "name": "Design Review",
     "location": "Room 201, HQ",
-    "time": "2025-05-21T14:30:00+05:00"
+    "time": "2025-05-21T14:30:00+05:00",
+    "category": "work",
+    "paymentStatus": "unpaid"
   },
   {
     "id": 3,
     "name": "Client Sync",
     "meetLink": "https://meet.google.com/xyz-uvwq-rst",
-    "time": "2025-05-22T16:00:00+05:00"
+    "time": "2025-05-22T16:00:00+05:00",
+    "category": "meeting",
+    "paymentStatus": "unconfirmed"
   },
   {
     "id": 4,
     "name": "Team Standup",
     "location": "Room 101, HQ",
-    "time": "2025-05-23T09:00:00+05:00"
+    "time": "2025-05-23T09:00:00+05:00",
+    "category": "work",
+    "paymentStatus": "paid"
   },
   {
     "id": 5,
     "name": "Sprint Planning",
     "meetLink": "https://meet.google.com/plan-sprint-123",
-    "time": "2025-05-24T11:00:00+05:00"
+    "time": "2025-05-24T11:00:00+05:00",
+    "category": "work",
+    "paymentStatus": "unpaid"
   },
   {
     "id": 6,
     "name": "Demo Day",
     "location": "Main Auditorium",
-    "time": "2025-05-25T15:00:00+05:00"
+    "time": "2025-05-25T15:00:00+05:00",
+    "category": "meeting",
+    "paymentStatus": "paid"
   },
   {
     "id": 7,
     "name": "Retrospective",
     "meetLink": "https://meet.google.com/retro-456",
-    "time": "2025-05-26T13:00:00+05:00"
+    "time": "2025-05-26T13:00:00+05:00",
+    "category": "work",
+    "paymentStatus": "unconfirmed"
   },
   {
     "id": 8,
     "name": "HR Interview",
     "location": "Room 305, HQ",
-    "time": "2025-05-27T10:30:00+05:00"
+    "time": "2025-05-27T10:30:00+05:00",
+    "category": "consultation",
+    "paymentStatus": "paid"
   },
   {
     "id": 9,
     "name": "Marketing Sync",
     "meetLink": "https://meet.google.com/market-789",
-    "time": "2025-05-28T12:00:00+05:00"
+    "time": "2025-05-28T12:00:00+05:00",
+    "category": "work",
+    "paymentStatus": "unpaid"
   },
   {
     "id": 10,
     "name": "Sales Call",
     "location": "Room 210, HQ",
-    "time": "2025-05-29T17:00:00+05:00"
+    "time": "2025-05-29T17:00:00+05:00",
+    "category": "meeting",
+    "paymentStatus": "unconfirmed"
   },
   {
     "id": 11,
     "name": "Product Launch",
     "meetLink": "https://meet.google.com/launch-321",
-    "time": "2025-05-30T18:00:00+05:00"
+    "time": "2025-05-30T18:00:00+05:00",
+    "category": "meeting",
+    "paymentStatus": "paid"
   },
   {
     "id": 12,
     "name": "One-on-One",
     "location": "Room 110, HQ",
-    "time": "2025-05-31T09:30:00+05:00"
+    "time": "2025-05-31T09:30:00+05:00",
+    "category": "personal",
+    "paymentStatus": "unconfirmed"
   }
 ] 
