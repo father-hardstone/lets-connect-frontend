@@ -1,12 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 
-const NAVBAR_HEIGHT = 80; // px
-
 const Hero: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   const scrollToFeatures = () => {
     const featuresSection = document.querySelector('.features');
@@ -30,7 +29,7 @@ const Hero: React.FC = () => {
       }
     );
 
-    const elements = [contentRef.current, titleRef.current, subtitleRef.current, buttonRef.current];
+    const elements = [contentRef.current, titleRef.current, subtitleRef.current, buttonRef.current, imageRef.current];
     elements.forEach((element) => {
       if (element) {
         observer.observe(element);
@@ -48,6 +47,14 @@ const Hero: React.FC = () => {
 
   return (
     <section className="hero-section">
+      <div className="hero-background">
+        <div 
+          ref={imageRef}
+          className="hero-image-section"
+          style={{ backgroundImage: `url('/backgrounds/pexels-fauxels-3183150.jpg')` }}
+        ></div>
+        <div className="hero-gradient-section"></div>
+      </div>
       <div ref={contentRef} className="hero-content">
         <h1 ref={titleRef} className="hero-title">Let's Connect</h1>
         <p ref={subtitleRef} className="hero-subtitle">Schedule appointments with ease and efficiency</p>

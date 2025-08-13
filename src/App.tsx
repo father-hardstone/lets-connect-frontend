@@ -12,9 +12,7 @@ function App() {
     <Router>
       <AuthProvider>
         <SidebarProvider>
-          <Layout>
-            <AppRoutes />
-          </Layout>
+          <AppRoutes />
         </SidebarProvider>
       </AuthProvider>
     </Router>
