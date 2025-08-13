@@ -13,18 +13,72 @@ import Appointments from './pages/Appointments';
 import Team from './pages/Team';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import ProtectedRoute from './components/ProtectedRoute';
+import PublicRoute from './components/PublicRoute';
+import PublicLayout from './components/PublicLayout';
+import Layout from './components/Layout';
 
 const AppRoutes: React.FC = () => (
   <Routes>
-    <Route path="/" element={<Landing />} />
-    <Route path="/home" element={<Home />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/signup" element={<Signup />} />
-    <Route path="/forgot-password" element={<ForgotPassword />} />
-    <Route path="/verify-otp" element={<VerifyOtp />} />
-    <Route path="/create-new-password" element={<CreateNewPassword />} />
-    {/* MainLayout for all app pages with sidebar */}
-    <Route element={<DashboardShell />}>
+    {/* Public Routes - Redirect to dashboard if authenticated */}
+    <Route path="/" element={
+      <PublicRoute>
+        <PublicLayout>
+          <Landing />
+        </PublicLayout>
+      </PublicRoute>
+    } />
+    <Route path="/home" element={
+      <PublicRoute>
+        <PublicLayout>
+          <Home />
+        </PublicLayout>
+      </PublicRoute>
+    } />
+    <Route path="/login" element={
+      <PublicRoute>
+        <PublicLayout>
+          <Login />
+        </PublicLayout>
+      </PublicRoute>
+    } />
+    <Route path="/signup" element={
+      <PublicRoute>
+        <PublicLayout>
+          <Signup />
+        </PublicLayout>
+      </PublicRoute>
+    } />
+    <Route path="/forgot-password" element={
+      <PublicRoute>
+        <PublicLayout>
+          <ForgotPassword />
+        </PublicLayout>
+      </PublicRoute>
+    } />
+    <Route path="/verify-otp" element={
+      <PublicRoute>
+        <PublicLayout>
+          <VerifyOtp />
+        </PublicLayout>
+      </PublicRoute>
+    } />
+    <Route path="/create-new-password" element={
+      <PublicRoute>
+        <PublicLayout>
+          <CreateNewPassword />
+        </PublicLayout>
+      </PublicRoute>
+    } />
+    
+    {/* Protected Routes - Redirect to landing if not authenticated */}
+    <Route element={
+      <ProtectedRoute>
+        <Layout>
+          <DashboardShell />
+        </Layout>
+      </ProtectedRoute>
+    }>
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/appointments" element={<Appointments />} />
       <Route path="/appointments/:appointmentId" element={<Appointments />} />

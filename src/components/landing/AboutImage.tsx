@@ -34,10 +34,16 @@ const AboutImage: React.FC = () => {
   return (
     <div ref={imageRef} className="about-image">
       <div className="image-placeholder">
-        {/* Replace this with actual image when available */}
-        <div className="placeholder-content">
-          <span>Company Image</span>
-        </div>
+        <img 
+          src="/images/vecteezy_portrait-of-young-excited-multiethnics-business-team-of_12534687.jpg"
+          alt="Young excited multiethnic business team"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            borderRadius: '10px'
+          }}
+        />
       </div>
     </div>
   );

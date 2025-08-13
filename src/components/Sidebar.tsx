@@ -12,6 +12,7 @@ import {
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSidebar } from '../context/SidebarContext';
+import { useAuth } from '../context/AuthContext';
 
 const { Sider } = Layout;
 const { Text } = Typography;
@@ -25,6 +26,7 @@ const THEME_BLUE = '#1a237e';
 
 const Sidebar: React.FC<SidebarProps> = () => {
   const { collapsed, setCollapsed, setEffectiveCollapsed } = useSidebar();
+  const { logout } = useAuth();
   const [isHovered, setIsHovered] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(
     typeof window !== 'undefined' ? window.innerWidth >= LARGE_SCREEN_WIDTH : true
@@ -102,6 +104,15 @@ const Sidebar: React.FC<SidebarProps> = () => {
   };
   // Find the key for the current path
   const selectedKey = routeToKey[location.pathname] || '1';
+
+  const handleLogout = () => {
+    // Clear auth user from localStorage
+    localStorage.removeItem('authUser');
+    // Call the logout function from AuthContext
+    logout();
+    // Navigate to landing page
+    navigate('/');
+  };
 
   return (
     <Sider
@@ -299,7 +310,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             marginBottom: 16,
             transition: 'background 0.2s',
           }}
-          onClick={() => {/* TODO: Hook up logout logic */}}
+          onClick={handleLogout}
         >
           <LogoutOutlined style={{ fontSize: 20, marginRight: effectiveCollapsed ? 0 : 16 }} />
           <span
