@@ -1,0 +1,100 @@
+{
+  "notifications": [
+    {
+      "id": 1,
+      "type": "appointment",
+      "title": "Team Meeting",
+      "description": "Weekly team sync with development team",
+      "date": "2025-08-13",
+      "time": "10:00 AM",
+      "priority": "high",
+      "status": "upcoming",
+      "participants": ["John Doe", "Jane Smith", "Mike Johnson"],
+      "location": "Conference Room A"
+    },
+    {
+      "id": 2,
+      "type": "reminder",
+      "title": "Client Call",
+      "description": "Follow-up call with ABC Corp regarding project requirements",
+      "date": "2025-08-13",
+      "time": "2:30 PM",
+      "priority": "medium",
+      "status": "upcoming",
+      "participants": ["Sarah Wilson", "Client Representative"],
+      "location": "Zoom Meeting"
+    },
+    {
+      "id": 3,
+      "type": "event",
+      "title": "Product Launch",
+      "description": "New feature release and demo session",
+      "date": "2025-08-13",
+      "time": "11:00 AM",
+      "priority": "high",
+      "status": "upcoming",
+      "participants": ["Product Team", "Marketing Team", "Stakeholders"],
+      "location": "Main Auditorium"
+    },
+    {
+      "id": 4,
+      "type": "appointment",
+      "title": "Code Review",
+      "description": "Review session for the new authentication module",
+      "date": "2025-08-13",
+      "time": "3:00 PM",
+      "priority": "medium",
+      "status": "upcoming",
+      "participants": ["Alex Chen", "David Brown", "Lisa Wang"],
+      "location": "Development Room"
+    },
+    {
+      "id": 5,
+      "type": "notification",
+      "title": "System Maintenance",
+      "description": "Scheduled maintenance window for database updates",
+      "date": "2025-08-13",
+      "time": "8:00 PM",
+      "priority": "low",
+      "status": "scheduled",
+      "participants": ["IT Team"],
+      "location": "Server Room"
+    },
+    {
+      "id": 6,
+      "type": "appointment",
+      "title": "Training Session",
+      "description": "New employee onboarding and system training",
+      "date": "2025-08-13",
+      "time": "9:30 AM",
+      "priority": "medium",
+      "status": "upcoming",
+      "participants": ["HR Team", "New Employees"],
+      "location": "Training Room B"
+    },
+    {
+      "id": 7,
+      "type": "reminder",
+      "title": "Deadline Reminder",
+      "description": "Project proposal submission deadline",
+      "date": "2025-08-13",
+      "time": "5:00 PM",
+      "priority": "high",
+      "status": "urgent",
+      "participants": ["Project Team"],
+      "location": "N/A"
+    },
+    {
+      "id": 8,
+      "type": "event",
+      "title": "All Hands Meeting",
+      "description": "Monthly company-wide meeting and announcements",
+      "date": "2025-08-13",
+      "time": "4:00 PM",
+      "priority": "high",
+      "status": "upcoming",
+      "participants": ["All Employees"],
+      "location": "Main Hall"
+    }
+  ]
+} 
